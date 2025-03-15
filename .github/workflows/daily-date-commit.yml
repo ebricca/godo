@@ -1,29 +1,28 @@
-name: Daily Date Commit
+name: Daily Timestamp and Date Commit
 
 on:
   schedule:
-    - cron: '0 0 * * *'  # Runs every day at 00:00 UTC (midnight)
+    - cron: '0 0,12 * * *'  # Runs every day at 00:00 and 12:00 UTC
+  workflow_dispatch:  # Allows manual triggering from the GitHub UI
 
 jobs:
-  update_date:
+  update_timestamp_and_date:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Set the date
-        id: date
-        run: echo "::set-output name=date::$(date +'%Y-%m-%d')"
-
-      - name: Update date file
+      - name: Update timestamp and date file
         run: |
-          DATE=$(date +'%Y-%m-%d')
-          echo "$DATE" > date.txt
+          TIMESTAMP=$(date +%s)  # Get Unix timestamp
+          HUMAN_DATE=$(date +'%Y-%m-%d %H:%M:%S') # Get human-readable date
+          echo "$TIMESTAMP" > timestamp.txt
+          echo "$HUMAN_DATE" > date.txt
 
       - name: Commit and push changes
         run: |
           git config --local user.email "actions@github.com"
           git config --local user.name "GitHub Actions"
-          git add date.txt
-          git commit -m "Daily date update: $(date +'%Y-%m-%d')" || echo "No changes to commit"
+          git add timestamp.txt date.txt
+          git commit -m "Daily timestamp and date update: $(date +'%Y-%m-%d %H:%M:%S')"
           git push origin main
