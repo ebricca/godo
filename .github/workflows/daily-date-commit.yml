@@ -1,0 +1,29 @@
+name: Daily Date Commit
+
+on:
+  schedule:
+    - cron: '0 0 * * *'  # Runs every day at 00:00 UTC (midnight)
+
+jobs:
+  update_date:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set the date
+        id: date
+        run: echo "::set-output name=date::$(date +'%Y-%m-%d')"
+
+      - name: Update date file
+        run: |
+          DATE=$(date +'%Y-%m-%d')
+          echo "$DATE" > date.txt
+
+      - name: Commit and push changes
+        run: |
+          git config --local user.email "actions@github.com"
+          git config --local user.name "GitHub Actions"
+          git add date.txt
+          git commit -m "Daily date update: $(date +'%Y-%m-%d')" || echo "No changes to commit"
+          git push origin main
