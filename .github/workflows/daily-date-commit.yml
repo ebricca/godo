@@ -2,7 +2,7 @@ name: Daily Timestamp and Date Commit
 
 on:
   schedule:
-    - cron: '0 0,12 * * *'  # Runs every day at 00:00 and 12:00 UTC
+    - cron: '0 1,10,19 * * *'  # Runs every day at 00:00 and 12:00 UTC
   workflow_dispatch:  # Allows manual triggering from the GitHub UI
 
 jobs:
