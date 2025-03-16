@@ -27,6 +27,6 @@ jobs:
           git commit -m "Daily timestamp and date update: $(date +'%Y-%m-%d %H:%M:%S')"
 
           # Authenticate using the PAT
-          git remote set-url origin "https://${{ secrets.PA_WF_TK }}@github.com/${{ github.repository }}"
+          git remote set-url origin "https://${{ secrets.PA_WF_TK2 }}@github.com/${{ github.repository }}"
 
           git push origin main
