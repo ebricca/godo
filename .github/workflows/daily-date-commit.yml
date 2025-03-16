@@ -21,8 +21,12 @@ jobs:
 
       - name: Commit and push changes
         run: |
-          git config --local user.email "actions@github.com"
-          git config --local user.name "GitHub Actions"
+          git config --local user.email "ebricca@me.com"
+          git config --local user.name "ebricca"
           git add timestamp.txt date.txt
           git commit -m "Daily timestamp and date update: $(date +'%Y-%m-%d %H:%M:%S')"
+
+          # Authenticate using the PAT
+          git remote set-url origin "https://${{ secrets.PA_WF_TK }}@github.com/${{ github.repository }}"
+
           git push origin main
