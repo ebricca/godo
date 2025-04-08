@@ -30,3 +30,16 @@ jobs:
           git remote set-url origin "https://${{ secrets.PA_WF_TK2 }}@github.com/${{ github.repository }}"
 
           git push origin main
+
+      - name: run endpoint ping
+        env:
+          # *** Add MY_ACTION_SECRET in Repository Settings > Secrets and Variables > Actions ***
+          MY_ENV_ENDPOINT: ${{ secrets.MY_ENV_ENDPOINT }}
+          MY_ENV_TOKEN: ${{ secrets.MY_ENV_TOKEN }}
+          MY_ENV_JSON: ${{ secrets.MY_ENV_JSON }}
+        run: |
+          echo "Executing curl script..."
+          bash ./scripts/curl.sh
+
+
+      
